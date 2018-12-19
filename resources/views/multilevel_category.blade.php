@@ -27,7 +27,7 @@ function menuSub($menu, $sub, $str){
 }
 @endphp
 
-@extends('index')
+@extends('Admin.index')
 @section('title', 'Multilevel Category')
 @section('content')
 <div class="col-md-4">

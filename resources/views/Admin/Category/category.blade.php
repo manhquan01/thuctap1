@@ -1,4 +1,4 @@
-@extends('index')
+@extends('Admin.index')
 @section('title', 'Category')
 @section('content')
 <div class="col-md-4">
@@ -20,7 +20,7 @@
             </div>
         </div>
         {{csrf_field()}}
-        <button type="button" onclick="add_item_menu()" form="add_category" class="btn btn-info waves-effect waves-light">Add category</button>
+        <button type="button" onclick="add_item_menu()" form="add_category" class="btn btn-primary waves-effect w-md waves-light m-b-5"><i class="mdi mdi-plus"></i> Add category</button>
     </form>
 </div>
 <div class="col-md-8">

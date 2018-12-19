@@ -15,13 +15,16 @@ class PostTable extends Migration
     {
         Schema::create('post', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('title');
-            $table->string('content');
+            $table->string('title');
+            $table->longText('content')->nullable();
             $table->char('slug');
-            $table->char('thumbnail');
+            $table->char('thumbnail')->nullable();
+            $table->enum('status', ['0', '1', '2']);
+            $table->integer('author')->unsigned();
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
