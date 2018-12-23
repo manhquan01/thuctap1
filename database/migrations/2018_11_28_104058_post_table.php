@@ -17,8 +17,8 @@ class PostTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->longText('content')->nullable();
-            $table->char('slug');
-            $table->char('thumbnail')->nullable();
+            $table->string('slug');
+            $table->string('thumbnail')->nullable();
             $table->enum('status', ['0', '1', '2']);
             $table->integer('author')->unsigned();
             $table->integer('category_id')->unsigned();

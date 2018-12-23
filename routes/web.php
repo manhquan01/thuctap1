@@ -88,6 +88,11 @@ Route::group(['namespace' => 'Admin'],function(){
                 'as' => 'stranfer_status_posted',
                 'uses' => 'PostController@posted'
             ]);
+
+            Route::post('search', [
+               'as' => 'search_post',
+               'uses' => 'PostController@search'
+            ]);
         });
     });
 });

@@ -13,7 +13,7 @@ class PostTableSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
 
-        $limit = 200;
+        $limit = 0;
 
         for ($i = 0; $i < $limit; $i++) {
             DB::table('post')->insert([

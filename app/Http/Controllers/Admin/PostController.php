@@ -19,7 +19,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $all_post = PostModel::all();
+        $all_post = PostModel::paginate(10);
         return view('Admin.Post.show',
             ['all_post' => $all_post,
             'status_post' => $this->status_post ]);
@@ -85,12 +85,12 @@ class PostController extends Controller
         $id = $request->id;
         PostModel::whereIn('id', $id)->update(['status' => '1']);
         PostModel::whereIn('id', $id)->delete();
-        return back();
+        return redirect()->route('post_dashboard')->with(['success' => 'The select article has been destroyed']);
     }
 
     public function trash()
     {
-        $all_post = PostModel::onlyTrashed()->get();
+        $all_post = PostModel::onlyTrashed()->paginate(10);
         return view('Admin.Post.trash',
             ['all_post' => $all_post,
                 'status_post' => $this->status_post ]);
@@ -101,7 +101,7 @@ class PostController extends Controller
         $id = $request->id;
         PostModel::onlyTrashed()->whereIn('id', $id)->update(['status' => '2']);
         PostModel::onlyTrashed()->whereIn('id', $id)->restore();
-        return back();
+        return redirect()->route('trash_post')->with(['success' => 'The select article has been restored']);
 
     }
 
@@ -109,14 +109,23 @@ class PostController extends Controller
     {
         $id = $request->id;
         PostModel::onlyTrashed()->whereIn('id', $id)->forceDelete();
-        return back();
+        return redirect()->route('trash_post')->with(['success' => 'The select article has been deleted']);
     }
 
     public function posted(Request $request)
     {
         $id = $request->id;
         PostModel::whereIn('id', $id)->update(['status' => '0']);
-        return back();
+        return redirect()->route('post_dashboard')->with(['success' => 'The select article has been posted']);
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->key_word;
+        $all_post = PostModel::where('title', 'LIKE', '%'.$keyword.'%')->get();
+        return view('Admin.Post.search_result',
+            ['all_post' => $all_post,
+                'status_post' => $this->status_post ]);
     }
 
     function vn_to_str ($str){

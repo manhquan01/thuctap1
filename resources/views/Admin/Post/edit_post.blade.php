@@ -35,7 +35,7 @@
                     <div class="form-group m-b-20">
                         <label>File Uploads</label>
                         <input value="{{$post->thumbnail}}" hidden="" id="thumbnail" name="thumbnail" type="text" >
-                        <button type="button" id="ckfinder-modal-1" hidden class="button-a button-a-background">Choose thumbnail</button>
+                        <button type="button" id="ckfinder-modal-1" class="button-a button-a-background">Choose thumbnail</button>
                         <button type="button" id="clear_image">clear</button>
                         <img src="{{$post->thumbnail}}" id="ckfinder-input-1" width="300px">
                     </div>
@@ -97,11 +97,19 @@
         $('#clear_image').click(function(){
             $('#ckfinder-input-1').attr('src', '');
             $('#thumbnail').val('');
-        });
-        $('#clear_image').click(function () {
             $('#clear_image').attr('hidden', true);
             $('#ckfinder-modal-1').attr('hidden', false);
         });
+
+        if ($('#thumbnail').val() != '')
+        {
+            $('#clear_image').attr('hidden', false);
+            $('#ckfinder-modal-1').attr('hidden', true);
+        } else
+        {
+            $('#ckfinder-modal-1').attr('hidden', false);
+            $('#clear_image').attr('hidden', true);
+        }
 
         // set status = posted
         $('#save_post').click(function () {
