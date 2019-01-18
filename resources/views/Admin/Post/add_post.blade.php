@@ -5,11 +5,21 @@
     <div class="p-20">
         <div class="">
             <form method="post" action="{{asset(route('store_new_post'))}}">
-                <div class="form-group m-b-20">
-                    <label for="exampleInputEmail1">Post Title</label>
-                    <input type="text" name="title" class="form-control" id="exampleInputEmail1" placeholder="Enter title" required="">
-                </div>
 
+                <div class="row">
+                    <div class="form-group m-b-20 col-md-10 col-sm-12 col-xs-12">
+                        <label for="exampleInputEmail1">Post Title</label>
+                        <input type="text" name="title" class="form-control" id="exampleInputEmail1" placeholder="Enter title" required="">
+                    </div>
+
+                    <div class="btn-switch btn-switch-primary col-md-2 col-sm-12 col-xs-12" style="margin-top: 25px;">
+                        <input type="checkbox" name="featured" value="1" id="input-btn-switch-primary">
+                        <label for="input-btn-switch-primary" class="btn btn-rounded btn-primary waves-effect waves-light">
+                            <em class="glyphicon glyphicon-ok"></em>
+                            <strong>Feature</strong>
+                        </label>
+                    </div>
+                </div>
                 <div class="form-group m-b-20">
                     <label for="exampleInputEmail1">Static Link</label>
                     <input type="text" name="static_link" class="form-control" id="exampleInputEmail1" placeholder="Static Link">

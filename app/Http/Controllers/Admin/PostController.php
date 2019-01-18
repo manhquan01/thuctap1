@@ -19,7 +19,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $all_post = PostModel::paginate(10);
+        $all_post = PostModel::orderBy('id', 'DESC')->paginate(10);
         return view('Admin.Post.show',
             ['all_post' => $all_post,
             'status_post' => $this->status_post ]);
@@ -35,6 +35,14 @@ class PostController extends Controller
     {
         $post_model = new PostModel();
         $post_model->title = $request->title;
+
+        if (isset($request->featured)){
+            $post_model->featured = $request->featured;
+        }
+        else{
+            $post_model->featured = '0';
+        }
+
         if ($request->static_link != '')
         {
             $post_model->slug = $request->static_link;
@@ -44,6 +52,7 @@ class PostController extends Controller
 
         $post_model->category_id = $request->category;
         $post_model->content = $request->descript;
+        $post_model->descript = substr($request->descript, 0, 255);
         $post_model->thumbnail = $request->thumbnail;
         $post_model->author = Auth::user()->id;
         $post_model->status = $request->status;
@@ -62,8 +71,19 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
-        $post_model = PostModel::find($id);
+        $post_model = PostModel::withTrashed()->find($id);
+        if ($post_model->deleted_at != null){
+            $post_model->restore();
+        }
         $post_model->title = $request->title;
+
+        if (isset($request->featured)){
+            $post_model->featured = $request->featured;
+        }
+        else{
+            $post_model->featured = '0';
+        }
+
         if ($request->static_link != '')
         {
             $post_model->slug = $request->static_link;
@@ -85,7 +105,7 @@ class PostController extends Controller
         $id = $request->id;
         PostModel::whereIn('id', $id)->update(['status' => '1']);
         PostModel::whereIn('id', $id)->delete();
-        return redirect()->route('post_dashboard')->with(['success' => 'The select article has been destroyed']);
+        return back()->with(['success' => 'The select article has been destroyed']);
     }
 
     public function trash()
@@ -101,7 +121,7 @@ class PostController extends Controller
         $id = $request->id;
         PostModel::onlyTrashed()->whereIn('id', $id)->update(['status' => '2']);
         PostModel::onlyTrashed()->whereIn('id', $id)->restore();
-        return redirect()->route('trash_post')->with(['success' => 'The select article has been restored']);
+        return back()->with(['success' => 'The select article has been restored']);
 
     }
 
@@ -109,14 +129,14 @@ class PostController extends Controller
     {
         $id = $request->id;
         PostModel::onlyTrashed()->whereIn('id', $id)->forceDelete();
-        return redirect()->route('trash_post')->with(['success' => 'The select article has been deleted']);
+        return back()->with(['success' => 'The select article has been deleted']);
     }
 
     public function posted(Request $request)
     {
         $id = $request->id;
         PostModel::whereIn('id', $id)->update(['status' => '0']);
-        return redirect()->route('post_dashboard')->with(['success' => 'The select article has been posted']);
+        return back()->with(['success' => 'The select article has been posted']);
     }
 
     public function search(Request $request)

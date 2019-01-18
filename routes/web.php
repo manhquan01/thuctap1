@@ -11,25 +11,30 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::group(['namespace' => 'Frontend'], function (){
+    Route::get('/',[
+        'as' => 'frontend_index',
+        'uses' => 'ArticleController@index'
+    ]);
 
-//Route::prefix('admin')->group(function(){
-//    Route::get('/', 'HomeController@index');
-//    Route::get('/dashboard', 'HomeController@index');
-//
-//    Route::get('category', 'HomeController@show');
-//
-//});
+    Route::get('/category/{slug}.html', [
+        'as' => 'frontend_category_post',
+        'uses' => 'ArticleController@showPostOfCategory'
+    ]);
+    Route::get('{slug}',[
+        'as' => 'frontend_article',
+        'uses' => 'ArticleController@showArticle'
+    ]);
+
+});
 
 Route::group(['namespace' => 'Admin'],function(){
 
-    Route::get('login', 'UserController@getLogin')->name('login')->middleware('logedin');
-    Route::post('loged-in', 'UserController@postLogin')->name('logged-in')->middleware('logedin');
-    Route::get('logout', 'UserController@logout')->name('logout');
+    Route::get('login/admin', 'UserController@getLogin')->name('login')->middleware('logedin');
+    Route::post('loged-in/admin', 'UserController@postLogin')->name('logged-in')->middleware('logedin');
+    Route::get('logout/admin', 'UserController@logout')->name('logout');
 
-    Route::group(['prefix' => 'admin', 'middleware' => 'logedout'],function(){
+    Route::group(['prefix' => 'admin/uae', 'middleware' => 'logedout'],function(){
         Route::get('/', 'HomeController@index')->name('index');
 
 
@@ -89,7 +94,7 @@ Route::group(['namespace' => 'Admin'],function(){
                 'uses' => 'PostController@posted'
             ]);
 
-            Route::post('search', [
+            Route::get('search', [
                'as' => 'search_post',
                'uses' => 'PostController@search'
             ]);

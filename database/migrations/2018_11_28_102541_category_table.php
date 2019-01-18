@@ -15,7 +15,7 @@ class CategoryTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('cate_name');
+            $table->string('cate_name',50);
             $table->string('cate_slug')->nullable();
             $table->integer('cate_parent')->unsigned()->nullable();
             //$table->foreign('parent')->references('id')->on('menu');

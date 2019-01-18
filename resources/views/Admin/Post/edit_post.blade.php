@@ -5,9 +5,19 @@
         <div class="p-20">
             <div class="">
                 <form method="post" action="{{asset(route('update_post', ['id' => $post->id]))}}">
-                    <div class="form-group m-b-20">
-                        <label for="exampleInputEmail1">Post Title</label>
-                        <input type="text" name="title" value="{{$post->title}}" class="form-control" id="exampleInputEmail1" placeholder="Enter title" required="">
+                    <div class="row">
+                        <div class="form-group m-b-20 col-md-10 col-sm-12 col-xs-12">
+                            <label for="exampleInputEmail1">Post Title</label>
+                            <input type="text" name="title" value="{{$post->title}}" class="form-control" id="exampleInputEmail1" placeholder="Enter title" required="">
+                        </div>
+
+                        <div class="btn-switch btn-switch-primary col-md-2 col-sm-12 col-xs-12" style="margin-top: 25px;">
+                            <input type="checkbox" name="featured" value="1" @if($post->featured == 1) checked @endif id="input-btn-switch-primary">
+                            <label for="input-btn-switch-primary" class="btn btn-rounded btn-primary waves-effect waves-light">
+                                <em class="glyphicon glyphicon-ok"></em>
+                                <strong>Feature</strong>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="form-group m-b-20">
@@ -40,8 +50,8 @@
                         <img src="{{$post->thumbnail}}" id="ckfinder-input-1" width="300px">
                     </div>
                     <input name="status" type="text" hidden value="" id="input_status">
-                    <button type="submit" id="save_post" class="btn btn-info waves-effect waves-light">Save and Post</button>
-                    <button type="submit" id="save_draft" class="btn btn-danger waves-effect waves-light">Save as draft</button>
+                    <button type="submit" id="save_post" class="btn btn-info waves-effect waves-light">Update and Post</button>
+                    <button type="submit" id="save_draft" class="btn btn-danger waves-effect waves-light">Update as draft</button>
                     {{csrf_field()}}
                 </form>
             </div>

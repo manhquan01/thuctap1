@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\CategoriesModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,13 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('quan/dao/1', function() {
+    $arr = ['dao'=> 'quan',
+            'hong' => 'phuc',
+            'xuan' => 'truong'];
+    $cate = CategoriesModel::all();
+    return response()->json($cate);
 });
 

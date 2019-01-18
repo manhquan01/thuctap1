@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-        <meta name="author" content="Coderthemes">
+        {{--<meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">--}}
+        {{--<meta name="author" content="Coderthemes">--}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <base href="{{asset('/')}}">
         <!-- App favicon -->
@@ -14,7 +14,7 @@
         <title>QUC - @yield('title')</title>
 
         <!--Morris Chart CSS -->
-		<link rel="stylesheet" href="../plugins/morris/morris.css">
+		<link rel="stylesheet" href="/plugins/morris/morris.css">
 
         <!-- App css -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -24,7 +24,7 @@
         <link href="assets/css/pages.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/menu.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
-		<link rel="stylesheet" href="../plugins/switchery/switchery.min.css">
+		<link rel="stylesheet" href="/plugins/switchery/switchery.min.css">
 
         <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,7 +34,7 @@
         <![endif]-->
         <script type="text/javascript" src="plugins/ckeditor/ckeditor.js"></script>
         <script type="text/javascript" src="plugins/ckfinder/ckfinder.js"></script>
-        <script src="assets/js/modernizr.min.js"></script>
+        {{--<script src="assets/js/modernizr.min.js"></script>--}}
         @yield('style')
 
     </head>
@@ -50,7 +50,7 @@
 
                 <!-- LOGO -->
                 <div class="topbar-left">
-                    <a href="index.html" class="logo"><span>Zir<span>cos</span></span><i class="mdi mdi-layers"></i></a>
+                    <a href="{{asset(route('index'))}}" class="logo"><span>Zir<span>cos</span></span><i class="mdi mdi-layers"></i></a>
                     <!-- Image logo -->
                     <!--<a href="index.html" class="logo">-->
                         <!--<span>-->
@@ -285,17 +285,7 @@
 							<div class="col-xs-12">
 								<div class="page-title-box">
                                     <h4 class="page-title">@yield('title')</h4>
-                                    <ol class="breadcrumb p-0 m-0">
-                                        <li>
-                                            <a href="#">Zircos</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Dashboard</a>
-                                        </li>
-                                        <li class="active">
-                                            Dashboard
-                                        </li>
-                                    </ol>
+
                                     <div class="clearfix"></div>
                                 </div>
 							</div>
@@ -399,11 +389,11 @@
         <script src="../plugins/counterup/jquery.counterup.min.js"></script>
 
         <!--Morris Chart-->
-		<script src="../plugins/morris/morris.min.js"></script>
-		<script src="../plugins/raphael/raphael-min.js"></script>
+		{{--<script src="../plugins/morris/morris.min.js"></script>--}}
+		{{--<script src="../plugins/raphael/raphael-min.js"></script>--}}
 
         <!-- Dashboard init -->
-        <script src="assets/pages/jquery.dashboard.js"></script>
+        {{--<script src="assets/pages/jquery.dashboard.js"></script>--}}
 
         <!-- App js -->
         <script src="assets/js/jquery.core.js"></script>

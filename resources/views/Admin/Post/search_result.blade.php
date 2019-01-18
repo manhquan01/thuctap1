@@ -1,8 +1,8 @@
 @extends('Admin.index')
 @section('title', 'Post')
 @section('content')
-    <form method="post" id="search_form" action="{{asset(route('search_post'))}}">
-        {{csrf_field()}}
+    <form method="get" id="search_form" action="{{asset(route('search_post'))}}">
+
     </form>
     <form id="form_show" method="post" action="">
         <div class="row">
@@ -17,7 +17,7 @@
 
             <div class="col-md-2">
                 <div class="form-group search-box">
-                    <input type="text" name="key_word" id="search-input" class="form-control" placeholder="Search here..." form="search_form">
+                    <input type="text" name="key_word" id="search-input" class="form-control" placeholder="Search here..." form="search_form" value="@if(request('key_word')){{request('key_word')}}@endif">
                     <button type="submit" class="btn btn-search" form="search_form"><i class="fa fa-search"></i></button>
                 </div>
             </div>
@@ -25,7 +25,7 @@
         </div>
         {{csrf_field()}}
         <div class="row table-responsive">
-            <table class="table m-0">
+            <table class="table m-0" id="table_data">
                 <thead>
                 <tr>
                     <th><input type="checkbox" id="check_all"></th>
@@ -94,8 +94,8 @@
             right: 0px;
         }
 
-        #paginate{
-            text-align: center;
+        #table_data tbody tr:hover{
+            background: #F5F5F5;
         }
 
     </style>
@@ -106,22 +106,22 @@
     <script src="assets/pages/jquery.datatables.init.js"></script>
 
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../plugins/datatables/dataTables.bootstrap.js"></script>
+    {{--<script src="../plugins/datatables/dataTables.bootstrap.js"></script>--}}
 
-    <script src="../plugins/datatables/dataTables.buttons.min.js"></script>
-    <script src="../plugins/datatables/buttons.bootstrap.min.js"></script>
-    <script src="../plugins/datatables/jszip.min.js"></script>
-    <script src="../plugins/datatables/pdfmake.min.js"></script>
-    <script src="../plugins/datatables/vfs_fonts.js"></script>
-    <script src="../plugins/datatables/buttons.html5.min.js"></script>
-    <script src="../plugins/datatables/buttons.print.min.js"></script>
-    <script src="../plugins/datatables/dataTables.fixedHeader.min.js"></script>
-    <script src="../plugins/datatables/dataTables.keyTable.min.js"></script>
-    <script src="../plugins/datatables/dataTables.responsive.min.js"></script>
-    <script src="../plugins/datatables/responsive.bootstrap.min.js"></script>
-    <script src="../plugins/datatables/dataTables.scroller.min.js"></script>
-    <script src="../plugins/datatables/dataTables.colVis.js"></script>
-    <script src="../plugins/datatables/dataTables.fixedColumns.min.js"></script>
+    {{--<script src="../plugins/datatables/dataTables.buttons.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/buttons.bootstrap.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/jszip.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/pdfmake.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/vfs_fonts.js"></script>--}}
+    {{--<script src="../plugins/datatables/buttons.html5.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/buttons.print.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.fixedHeader.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.keyTable.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.responsive.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/responsive.bootstrap.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.scroller.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.colVis.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.fixedColumns.min.js"></script>--}}
 
     <script>
         $(document).ready(function () {

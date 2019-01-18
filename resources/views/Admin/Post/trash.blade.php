@@ -19,7 +19,7 @@
     </div>
     {{csrf_field()}}
     <div class="row table-responsive">
-        <table class="table m-0">
+        <table class="table m-0" id="table_data">
             <thead>
             <tr>
                 <th><input type="checkbox" id="check_all"></th>
@@ -80,6 +80,10 @@
         #paginate{
             text-align: center;
         }
+
+        #table_data tbody tr:hover{
+            background: #F5F5F5;
+        }
     </style>
 @endsection
 
@@ -88,22 +92,22 @@
     <script src="assets/pages/jquery.datatables.init.js"></script>
 
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../plugins/datatables/dataTables.bootstrap.js"></script>
+    {{--<script src="../plugins/datatables/dataTables.bootstrap.js"></script>--}}
 
-    <script src="../plugins/datatables/dataTables.buttons.min.js"></script>
-    <script src="../plugins/datatables/buttons.bootstrap.min.js"></script>
-    <script src="../plugins/datatables/jszip.min.js"></script>
-    <script src="../plugins/datatables/pdfmake.min.js"></script>
-    <script src="../plugins/datatables/vfs_fonts.js"></script>
-    <script src="../plugins/datatables/buttons.html5.min.js"></script>
-    <script src="../plugins/datatables/buttons.print.min.js"></script>
-    <script src="../plugins/datatables/dataTables.fixedHeader.min.js"></script>
-    <script src="../plugins/datatables/dataTables.keyTable.min.js"></script>
-    <script src="../plugins/datatables/dataTables.responsive.min.js"></script>
-    <script src="../plugins/datatables/responsive.bootstrap.min.js"></script>
-    <script src="../plugins/datatables/dataTables.scroller.min.js"></script>
-    <script src="../plugins/datatables/dataTables.colVis.js"></script>
-    <script src="../plugins/datatables/dataTables.fixedColumns.min.js"></script>
+    {{--<script src="../plugins/datatables/dataTables.buttons.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/buttons.bootstrap.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/jszip.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/pdfmake.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/vfs_fonts.js"></script>--}}
+    {{--<script src="../plugins/datatables/buttons.html5.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/buttons.print.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.fixedHeader.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.keyTable.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.responsive.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/responsive.bootstrap.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.scroller.min.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.colVis.js"></script>--}}
+    {{--<script src="../plugins/datatables/dataTables.fixedColumns.min.js"></script>--}}
 
     <script>
         $(document).ready(function () {

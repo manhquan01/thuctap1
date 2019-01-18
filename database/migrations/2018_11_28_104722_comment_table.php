@@ -15,8 +15,8 @@ class CommentTable extends Migration
     {
         Schema::create('comment', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('Name');
-            $table->char('phone_number');
+            $table->string('Name', 50);
+            $table->char('phone_number',12);
             $table->string('comment');
             $table->integer('post_id')->unsigned();
             $table->foreign('post_id')->references('id')->on('post');

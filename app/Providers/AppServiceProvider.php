@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\CategoriesModel;
+use App\Models\PostModel;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $data['category'] = CategoriesModel::all();
+        $data['pin'] = PostModel::orderBy('id', 'DESC')->limit(6)->offset(5)->where('status', '0')->get()->toArray();
+        view()->share($data);
+
     }
 
     /**

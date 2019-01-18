@@ -117,16 +117,22 @@
         }
 
         function destroy(cate_id) {
-            if (confirm('Sure?')){
+            if (confirm('Are you sure delete this category?')){
                 return $.ajax({
                     type:"GET",
                     url:"{{asset(route('destroy_menu_item'))}}",
                     data: {id: cate_id},
                     async: false,
                     success: function (data) {
-                        if (data){
+                        if (data === 'Can\'t delete this category because exist post in category.'){
+                            alert("Can't delete this category because exist post in category.");
+
+                        }else {
                             $('table tr[record-id="' + cate_id + '"]').remove();
                         }
+                    },
+                    error: function () {
+
                     }
                 });
             }

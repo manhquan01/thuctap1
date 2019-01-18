@@ -45,7 +45,14 @@ class CategoryController extends Controller
 
     public function delete(Request $request)
     {
-        return CategoriesModel::destroy($request->id);
+        $find_post = CategoriesModel::find($request->id)->post()->withTrashed()->get()->first();
+        if ($find_post == NULL)
+        {
+            return CategoriesModel::destroy($request->id);
+        }else {
+            return 'Can\'t delete this category because exist post in category.';
+        }
+
     }
 
     function vn_to_str ($str){
