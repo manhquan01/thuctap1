@@ -5,6 +5,10 @@
     <div class="alert alert-success" role="alert">
         <strong>Well done!</strong> {{session('success')}}
     </div>
+    @elseif(session('unsuccess'))
+    <div class="alert alert-danger" role="alert">
+        <strong>Fall!</strong> {{session('unsuccess')}}
+    </div>
     @endif
 <form method="get" id="search_form" action="{{asset(route('search_post'))}}">
 
@@ -43,7 +47,6 @@
             </tr>
             </thead>
 
-
             <tbody>
             @foreach($all_post as $item)
             <tr>
@@ -51,7 +54,7 @@
                 <td width="50%"><a href="{{asset(route('edit_post', ['id' => $item->id]))}}">{{$item['title']}}</a></td>
                 <td >{{$item->category->cate_name}}</td>
                 <td>{{$item->user->name}}</td>
-                <td><i class="glyphicon glyphicon-comment">10</i></td>
+                <td><i class="glyphicon glyphicon-comment">{{$item->discuss->count()}}</i></td>
                 <td>{{$item['updated_at']}}</td>
                 <td>
                     @foreach($status_post as $key => $status)
@@ -138,8 +141,14 @@
 
         if (count>0)
         {
-            $('#btn_destroy').html('<button type="submit" onclick="destroy_post()" id="destroy" class="btn btn-danger waves-effect w-md waves-light m-b-5"><i class="glyphicon glyphicon-trash"></i> Destroy</button>\n' +
-                '<button type="submit" onclick="status_posted()" id="posted" class="btn btn-info waves-effect w-md waves-light m-b-5"><i class="glyphicon glyphicon-send"></i> Post</button>');
+            var user_role = "{{Auth::user()->role}}";
+            if (user_role !== "1") {
+                $('#btn_destroy').html('<button type="submit" onclick="destroy_post()" id="destroy" class="btn btn-danger waves-effect w-md waves-light m-b-5"><i class="glyphicon glyphicon-trash"></i> Destroy</button>\n' +
+                    '<button type="submit" onclick="status_posted()" id="posted" class="btn btn-info waves-effect w-md waves-light m-b-5"><i class="glyphicon glyphicon-send"></i> Post</button>');
+            }else{
+                $('#btn_destroy').html('<button type="submit" onclick="destroy_post()" id="destroy" class="btn btn-danger waves-effect w-md waves-light m-b-5"><i class="glyphicon glyphicon-trash"></i> Destroy</button>');
+            }
+
         }else{
             $('#destroy').hide();
             $('#posted').hide();

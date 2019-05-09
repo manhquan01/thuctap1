@@ -6,17 +6,34 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CategoriesModel;
 use App\Models\PostModel;
+use App\Models\DiscussModel;
+use DB;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
     public function index()
     {
         $posts = array();
-        $cate = CategoriesModel::all()->toArray();
-        $feature = PostModel::orderBy('id', 'DESC')->limit(5)->where('status', '0')->where('featured', '1')->get()->toArray();
+
+        $cate = CategoriesModel::where('status', '1')
+            ->get()
+            ->toArray();
+
+        $feature = PostModel::orderBy('id', 'DESC')
+            ->limit(5)
+            ->where('status', '0')
+            ->where('featured', '1')
+            ->get()
+            ->toArray();
 
         foreach ($cate as $item){
-            $post = PostModel::take(4)->orderBy('id', 'DESC')->where('category_id', $item['id'])->get()->toArray();
+            $post = PostModel::take(4)
+                ->orderBy('id', 'DESC')
+                ->where('category_id', $item['id'])
+                ->where('status', '0')
+                ->get()
+                ->toArray();
             $posts[] = $post;
         }
 
@@ -34,8 +51,17 @@ class ArticleController extends Controller
     public function showArticle(Request $request)
     {
         $post = PostModel::where('slug', $request->slug)->firstOrFail();
-        return view('Frontend.detail_post', ['post' => $post]);
+        $discuss = DiscussModel::select('comment', 'updated_at', 'user_id')->where('post_id', $post->id)->get();
+        return view('Frontend.detail_post', ['post' => $post, 'discuss' => $discuss]);
     }
 
+    public function comment(Request $request){
+        $discuss = new DiscussModel;
+        $discuss->comment = $request->message;
+        $discuss->post_id = $request->id;
+        $discuss->user_id = Auth::user()->id;
+        $discuss->save();
+        return back();
+    }
 
 }

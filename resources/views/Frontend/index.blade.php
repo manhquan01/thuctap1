@@ -52,6 +52,9 @@
                     <img src="frontend/assets/images/logo.png" alt="" height="30">
                 </a>
             </div>
+            <div>
+                <a href="{{asset(route('logout'))}}"><i class="ti-power-off m-r-5"></i> Logout</a>
+            </div>
             <!-- End Logo container-->
 
             <div class="menu-extras">

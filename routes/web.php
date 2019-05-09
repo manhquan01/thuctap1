@@ -25,16 +25,35 @@ Route::group(['namespace' => 'Frontend'], function (){
         'as' => 'frontend_article',
         'uses' => 'ArticleController@showArticle'
     ]);
+    Route::post('{slug}',[
+        'as' => 'discuss_article',
+        'uses' => 'ArticleController@comment'
+    ]);
 
 });
+//Auth::routes();
+
+Route::get('login/admin', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login/admin', 'Auth\LoginController@login');
+Route::get('logout/admin', 'Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+Route::get('register/admin', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register/admin', 'Auth\RegisterController@register');
+
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::group(['namespace' => 'Admin'],function(){
 
-    Route::get('login/admin', 'UserController@getLogin')->name('login')->middleware('logedin');
-    Route::post('loged-in/admin', 'UserController@postLogin')->name('logged-in')->middleware('logedin');
-    Route::get('logout/admin', 'UserController@logout')->name('logout');
+//    Route::get('login/admin', 'UserController@getLogin')->name('login')->middleware('logedin');
+//    Route::post('loged-in/admin', 'UserController@postLogin')->name('logged-in')->middleware('logedin');
+//    Route::get('logout/admin', 'UserController@logout')->name('logout');
 
-    Route::group(['prefix' => 'admin/uae', 'middleware' => 'logedout'],function(){
+    Route::group(['prefix' => 'admin/uae', 'middleware' => ['auth','CheckActivated']],function(){
         Route::get('/', 'HomeController@index')->name('index');
 
 
@@ -51,6 +70,10 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::post('store', 'CategoryController@store')->name('store_menu_item');
             Route::post('update', 'CategoryController@update')->name('update_menu_item');
             Route::get('destroy', 'CategoryController@delete')->name('destroy_menu_item');
+            Route::get('change_status',[
+                'as' => 'change_status_category',
+                'uses' => 'CategoryController@change_status'
+            ]);
         });
 
         Route::group(['prefix' => 'post'], function(){
@@ -99,5 +122,25 @@ Route::group(['namespace' => 'Admin'],function(){
                'uses' => 'PostController@search'
             ]);
         });
+
+        Route::group(['prefix' => 'member'], function (){
+            Route::get('/', [
+                'as' => 'member_dashboard',
+                'uses' => 'MemberController@index'
+            ]);
+            Route::get('change_activated',[
+                'as' => 'change_activated',
+                'uses' => 'MemberController@updateActivatedUser'
+            ]);
+        });
+
+        Route::group(['prefix' => 'discuss'], function (){
+            Route::get('/',[
+                'as' => 'discuss_index',
+                'uses' => 'DiscussController@index'
+            ]);
+        });
     });
 });
+
+Route::get('/home/admin', 'HomeController@index')->name('home');

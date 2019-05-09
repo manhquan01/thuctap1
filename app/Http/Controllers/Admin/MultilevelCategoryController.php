@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 
 class MultilevelCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['CheckRoleEditor','CheckRoleUser']);
+    }
+
     public function index()
     {
         $menu = CategoriesModel::all();

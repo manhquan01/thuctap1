@@ -7,19 +7,30 @@ use App\Http\Controllers\Controller;
 use App\CategoriesModel;
 use App\Models\PostModel;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Library\queryTableUser;
+use DB;
 
 class PostController extends Controller
 {
+    use queryTableUser;
+
     public $status_post;
 
     public function __construct(StatusTicket $statusTicket)
     {
+        $this->middleware('CheckRoleUser');
+        $this->middleware('CheckRoleEditor')->only('posted');
         $this->status_post = $statusTicket->status_post();
     }
 
     public function index()
     {
-        $all_post = PostModel::orderBy('id', 'DESC')->paginate(10);
+        if ($this->role() == 'Editor'){
+            $all_post = PostModel::where('author', Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
+        }
+        else{
+            $all_post = PostModel::orderBy('id', 'DESC')->paginate(10);
+        }
         return view('Admin.Post.show',
             ['all_post' => $all_post,
             'status_post' => $this->status_post ]);
@@ -94,8 +105,10 @@ class PostController extends Controller
         $post_model->category_id = $request->category;
         $post_model->content = $request->descript;
         $post_model->thumbnail = $request->thumbnail;
-        $post_model->author = Auth::user()->id;
-        $post_model->status = $request->status;
+
+        if ($this->role() != 'Editor' || ($this->role() == 'Editor' && $post_model->status == '1')){
+            $post_model->status = $request->status;
+        }
         $post_model->save();
         return redirect()->route('post_dashboard');
     }
@@ -103,14 +116,33 @@ class PostController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->id;
-        PostModel::whereIn('id', $id)->update(['status' => '1']);
-        PostModel::whereIn('id', $id)->delete();
-        return back()->with(['success' => 'The select article has been destroyed']);
+        $status = PostModel::select('id', 'status')->whereIn('id', $id)->get();
+        foreach($status as $item){
+            if ($this->status_post[$item->status] == 'Draft'){
+                $draft_arr[] = $item->id;
+            }else{
+                $posted_arr[] = $item->id;
+            }
+        }
+
+        if (isset($posted_arr)){
+            return back()->with(['unsuccess' => 'Can\'t destroy article has been posted']);
+        }else{
+            PostModel::whereIn('id', $draft_arr)->update(['status' => '1']);
+            PostModel::whereIn('id', $draft_arr)->delete();
+            return back()->with(['success' => 'The select article has been destroyed']);
+        }
     }
 
     public function trash()
     {
-        $all_post = PostModel::onlyTrashed()->paginate(10);
+        if ($this->role() == 'Editor'){
+            $all_post = PostModel::onlyTrashed()->where('author', Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
+        }
+        else{
+            $all_post = PostModel::onlyTrashed()->paginate(10);
+        }
+
         return view('Admin.Post.trash',
             ['all_post' => $all_post,
                 'status_post' => $this->status_post ]);

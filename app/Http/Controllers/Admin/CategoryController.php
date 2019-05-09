@@ -8,6 +8,13 @@ use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['CheckRoleEditor','CheckRoleUser']);
+    }
+
+    private $status = array('hidden', 'show');
+
     public function index()
     {
         $menu = CategoriesModel::orderBy('id', 'desc')->get();
@@ -25,6 +32,7 @@ class CategoryController extends Controller
         } else{
             $categories_model->cate_slug = $this->vn_to_str($request->cate_name);
         }
+        $categories_model->status = '0';
         $categories_model->save();
         return $categories_model;
     }
@@ -53,6 +61,18 @@ class CategoryController extends Controller
             return 'Can\'t delete this category because exist post in category.';
         }
 
+    }
+
+    public function change_status(Request $request){
+        $category =  CategoriesModel::find($request->id);
+        if ($request->val == 0){
+            $category->status = "1";
+        }
+        else{
+            $category->status = "0";
+        }
+        $category->save();
+        return $category->status;
     }
 
     function vn_to_str ($str){

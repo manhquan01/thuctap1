@@ -18,6 +18,7 @@ class CategoryTable extends Migration
             $table->string('cate_name',50);
             $table->string('cate_slug')->nullable();
             $table->integer('cate_parent')->unsigned()->nullable();
+            $table->enum('status', ['0', '1']);
             //$table->foreign('parent')->references('id')->on('menu');
             $table->timestamps();
         });

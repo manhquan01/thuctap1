@@ -25,6 +25,7 @@ class PostTable extends Migration
             $table->integer('author')->unsigned();
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('author')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
         });

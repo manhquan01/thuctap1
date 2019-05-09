@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $data['category'] = CategoriesModel::all();
+        $data['category'] = CategoriesModel::where('status', '1')->get();
         $data['pin'] = PostModel::orderBy('id', 'DESC')->limit(6)->offset(5)->where('status', '0')->get()->toArray();
         view()->share($data);
 

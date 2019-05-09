@@ -1,0 +1,115 @@
+@extends('Admin.index')
+@section('title', 'Membership')
+@section('content')
+    <div class="row table-responsive">
+        <table class="table m-0" id="table_data">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone munber</th>
+                <th>Role</th>
+                <th>Activated</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($members as $member)
+                <tr>
+                    <td>{{$member->name}}</td>
+                    <td>{{$member->email}}</td>
+                    <td>{{$member->phone_number}}</td>
+                    <td>
+                        @foreach($roles as $key => $role)
+                            @if($key === $member->role)
+                                @switch($member->role)
+                                    @case(0)
+                                    <span class="label label-success">{{$role}}</span>
+                                    @break
+                                    @case(1)
+                                    <span class="label label-danger">{{$role}}</span>
+                                    @break
+                                    @case(2)
+                                    <span class="label label-warning">{{$role}}</span>
+                                    @break
+                                    @case(3)
+                                    <span class="label label-info">{{$role}}</span>
+                                    @break
+                                @endswitch
+                            @endif
+                        @endforeach
+                    </td>
+                    <td>
+                        <input type="checkbox" id="switch{{$member->id}}" data-switch="none" @if($member->activated == 1) checked @endif value="{{$member->activated}}">
+                        <label for="switch{{$member->id}}" data-on-label="On" data-off-label="Off" onclick="change_activated({{$member->id}})"></label>
+                    </td>
+                    <td>
+                        <div style="display: inline-block">
+                        <button onclick="click_edit_btn(this)" data-toggle="modal" data-target="#con-close-modal" class="btn_edit">
+                            <i class="ion-edit"></i>
+                        </button>
+                        <button onclick="destroy()" class="btn_del">
+                            <i class="ion-trash-a"></i>
+                        </button>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div id="paginate" class="row">
+        {{$members->links()}}
+    </div>
+@endsection
+
+@section('script')
+    <script>
+        function change_activated(id) {
+            var check_activated_user = $("#switch"+id).val();
+            if (confirm('Are you sure continue change?')){
+                return $.ajax({
+                    type: "GET",
+                    url: "{{asset(route('change_activated'))}}",
+                    data: {id: id},
+                    success: function (data) {
+                        $("#switch"+id).val(data);
+                        if (data == 0) {
+                            $("#switch"+id).removeAttr('checked');
+                        }else{
+                            $("#switch"+id).attr('checked', true);
+                        }
+                    }
+                });
+            }else {
+                location.reload();
+            }
+
+        }
+    </script>
+@endsection
+
+@section('style')
+    <style type="text/css">
+        table thead th{
+            text-align: center;
+        }table tbody td{
+            text-align: center;
+        }
+        .btn_edit{
+            border: none;
+            background: transparent;
+            float: left;
+        }
+
+        .btn_del{
+            border: none;
+            background: transparent;
+            float: left;
+        }
+        #paginate{
+            text-align: center;
+        }
+
+    </style>
+@endsection

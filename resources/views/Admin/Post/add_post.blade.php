@@ -50,7 +50,9 @@
                     <img src="" id="ckfinder-input-1" width="300px">
                 </div>
                 <input name="status" type="text" hidden value="" id="input_status">
+                @if( Auth::user()->role !== 1)
                 <button type="submit" id="save_post" class="btn btn-info waves-effect waves-light">Save and Post</button>
+                @endif
                 <button type="submit" id="save_draft" class="btn btn-danger waves-effect waves-light">Save as draft</button>
                 {{csrf_field()}}
             </form>
@@ -119,7 +121,12 @@
 
     // set status = posted
     $('#save_post').click(function () {
-        $('#input_status').val(0);
+        var user_role = "{{Auth::user()->role}}";
+        if (user_role !== 1) {
+            $('#input_status').val(0);
+        }else{
+            $('#input_status').val(2);
+        }
     });
 
     // set status = draft

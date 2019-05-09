@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\PostModel;
 
 class User extends Authenticatable
 {
@@ -14,9 +15,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    public $table = 'user';
     protected $fillable = [
-        'name', 'email', 'password', 'avatar'
+        'name', 'email', 'password', 'avatar', 'activated', 'role', 'phone_number'
     ];
 
     /**
@@ -27,4 +27,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function post(){
+        return $this->hasMany(PostModel::class,  'author', 'id' );
+    }
+
 }

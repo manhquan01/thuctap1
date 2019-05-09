@@ -30,6 +30,7 @@
             <th>#</th>
             <th>Category Name</th>
             <th>Static Link</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -39,6 +40,10 @@
             <th>{{$stt--}}</th>
             <td headers="cate_name">{{$item->cate_name}}</td>
             <td headers="cate_slug">{{$item->cate_slug}}</td>
+            <td>
+                <input type="checkbox" id="switch{{$item->id}}" data-switch="none" @if($item->status == 1) checked @endif value="{{$item->status}}">
+                <label for="switch{{$item->id}}" data-on-label="On" data-off-label="Off" onclick="change_status({{$item->id}})"></label>
+            </td>
             <td>
                 <button onclick="click_edit_btn(this)" data-toggle="modal" data-target="#con-close-modal" class="btn_edit">
                     <i class="ion-edit"></i>
@@ -74,7 +79,12 @@
                     var count = $('.tr').length;
                     parseInt(count);
                     count++;
-                    var row = "<tr class=\"tr\" record-id=\""+data['id']+"\"> <th>"+count+"</th><td headers=\"cate_name\">"+data['cate_name']+"</td><td headers=\"cate_slug\">"+data['cate_slug']+"</td><td>\n" +
+                    var row = "<tr class=\"tr\" record-id=\""+data['id']+"\"> <th>"+count+"</th><td headers=\"cate_name\">"+data['cate_name']+"</td><td headers=\"cate_slug\">"+data['cate_slug']+"</td>" +
+                        "<td>" +
+                        "<input type=\"checkbox\" id=\"switch"+data['id']+"\" data-switch=\"none\" value=\""+data['status']+"\">\n" +
+                        "<label for=\"switch"+data['id']+"\" data-on-label=\"On\" data-off-label=\"Off\" onclick=\"change_status("+data['id']+")\"></label>" +
+                        "</td>\n" +
+                        "<td>\n" +
                         "<button onclick=\"click_edit_btn(this)\" data-toggle=\"modal\" data-target=\"#con-close-modal\" class=\"btn_edit\">\n" +
                         "<i class=\"ion-edit\"></i>\n" +
                         "</button>\n" +
@@ -85,6 +95,9 @@
                     $('#cate_name').val('');
                     $('#cate_slug').val('');
                     $('#tbody').prepend(row);
+                    if (data['status'] == 1){
+                        $("#switch"+data['id']).prop("checked", true);
+                    }
                 }
             });
         }
@@ -137,6 +150,18 @@
                 });
             }
 
+        }
+
+        function change_status(id){
+            var status = $("#switch"+id).val();
+            return $.ajax({
+               type:"GET",
+               url:"{{asset(route('change_status_category'))}}",
+               data: {id: id, val: status},
+               success: function (data) {
+                   $("#switch"+id).val(data);
+               }
+            });
         }
     </script>
 

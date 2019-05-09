@@ -59,5 +59,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'logedin' => \App\Http\Middleware\CheckLogin::class,
         'logedout' => \App\Http\Middleware\CheckLogout::class,
+        'CheckActivated' => \App\Http\Middleware\CheckActivated::class,
+        'CheckRoleEditor' => \App\Http\Middleware\CheckRoleEditor::class,
+        'CheckRoleCensor' => \App\Http\Middleware\CheckRoleCensor::class,
+        'CheckRoleUser' => \App\Http\Middleware\CheckRoleUser::class,
     ];
 }
