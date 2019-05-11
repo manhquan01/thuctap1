@@ -18,7 +18,7 @@ class UserController extends Controller
         $data = ['email' => $request->email, 'password' => $request->password];
         if (Auth::attempt($data)) {
             return redirect()->route('index');
-        }else{
+        } else {
             return back()->withInput()->with('error', 'Email or password is incorrect');
         }
     }

@@ -44,7 +44,7 @@
                     <hr/>
 
                     <div class="m-t-50 blog-post-comment">
-                        <h4 class="text-uppercase">Comments <small>(4)</small></h4>
+                        <h4 class="text-uppercase">Comments</h4>
                         <div class="border m-b-20"></div>
 
                         <ul class="media-list">
@@ -122,6 +122,9 @@
                         <h4 class="text-uppercase m-t-50">Leave a comment</h4>
                         <div class="border m-b-20"></div>
 
+                        @if(\Illuminate\Support\Facades\Auth::guest())
+                            <a href="{{asset(route('login'))}}"><button class="col-sm-12"><i class="mdi mdi-message"></i> Login to comment</button></a>
+                        @else
                         <form name="ajax-form" action="{{asset(route('discuss_article', [$post['slug']]))}}" method="post" class="contact-form" data-parsley-validate="" novalidate="">
                         {{csrf_field()}}
                             <input type="text" hidden name="id" value="{{$post['id']}}">
@@ -149,7 +152,7 @@
                             </div> <!-- /row -->
 
                         </form>
-
+                        @endif
 
                     </div><!-- end m-t-50 -->
 

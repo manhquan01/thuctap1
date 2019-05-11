@@ -10,13 +10,13 @@ class MultilevelCategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['CheckRoleEditor','CheckRoleUser']);
+        $this->middleware(['CheckRoleEditor', 'CheckRoleUser']);
     }
 
     public function index()
     {
         $menu = CategoriesModel::all();
-        return view('multilevel_category',['menu' => $menu]);
+        return view('multilevel_category', ['menu' => $menu]);
     }
 
     public function store(Request $request)
@@ -47,7 +47,7 @@ class MultilevelCategoryController extends Controller
 
     public function parent($id)
     {
-        $parent = CategoriesModel::where('id','!=', $id)->get();
+        $parent = CategoriesModel::where('id', '!=', $id)->get();
         return $parent;
     }
 }

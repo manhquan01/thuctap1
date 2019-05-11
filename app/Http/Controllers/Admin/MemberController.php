@@ -13,23 +13,24 @@ class MemberController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['CheckRoleEditor','CheckRoleCensor','CheckRoleUser']);
+        $this->middleware(['CheckRoleEditor', 'CheckRoleCensor', 'CheckRoleUser']);
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $roles = $this->getRole();
         $members = DB::table('users')->select('id', 'name', 'email', 'phone_number', 'role', 'activated')->paginate(5);
         return view('Admin.Member.index', ['members' => $members, 'roles' => $roles]);
     }
 
-    public function updateActivatedUser(Request $request){
+    public function updateActivatedUser(Request $request)
+    {
         $value = DB::table('users')->select('activated')->find($request->id);
-        if ($value->activated == 0){
+        if ($value->activated == 0) {
             $val = ['activated' => '1'];
             $this->updateUserTable($request, $val);
             return '1';
-        }
-        else{
+        } else {
             $val = ['activated' => '0'];
             $this->updateUserTable($request, $val);
             return '0';

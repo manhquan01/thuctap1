@@ -20,21 +20,24 @@ trait QueryTableUser
         '0' => 'Admin',
         '1' => 'Editor',
         '2' => 'Censor',
-        '3' =>  'User');
+        '3' => 'User');
 
-    protected function getRole(){
+    protected function getRole()
+    {
         return $this->role;
     }
 
-    protected function getUserRole(){
+    protected function getUserRole()
+    {
         $this->user_role = Auth::user()->role;
         return $this->user_role;
     }
 
-    public function role(){
+    public function role()
+    {
         $role = $this->getRole()[$this->getUserRole()];
 
-        switch ($role){
+        switch ($role) {
             case 'Admin':
                 return 'Admin';
                 break;
@@ -53,7 +56,8 @@ trait QueryTableUser
         }
     }
 
-    protected function updateUserTable(Request $request, $value){
+    protected function updateUserTable(Request $request, $value)
+    {
         DB::table('users')->where('id', $request->id)->update($value);
     }
 }

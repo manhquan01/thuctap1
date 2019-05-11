@@ -11,14 +11,19 @@
 
             <div class="col-md-2 col-sm-6 col-xs-6 text-right">
                 <a href="{{asset(route('create_new_post'))}}">
-                    <button type="button" class="btn btn-primary waves-effect w-md waves-light m-b-5"><i class="mdi mdi-plus"></i> Write new post</button>
+                    <button type="button" class="btn btn-primary waves-effect w-md waves-light m-b-5"><i
+                                class="mdi mdi-plus"></i> Write new post
+                    </button>
                 </a>
             </div>
 
             <div class="col-md-2">
                 <div class="form-group search-box">
-                    <input type="text" name="key_word" id="search-input" class="form-control" placeholder="Search here..." form="search_form" value="@if(request('key_word')){{request('key_word')}}@endif">
-                    <button type="submit" class="btn btn-search" form="search_form"><i class="fa fa-search"></i></button>
+                    <input type="text" name="key_word" id="search-input" class="form-control"
+                           placeholder="Search here..." form="search_form"
+                           value="@if(request('key_word')){{request('key_word')}}@endif">
+                    <button type="submit" class="btn btn-search" form="search_form"><i class="fa fa-search"></i>
+                    </button>
                 </div>
             </div>
 
@@ -42,9 +47,12 @@
                 <tbody>
                 @foreach($all_post as $item)
                     <tr>
-                        <td align="center" width="35px"><input type="checkbox" value="{{$item->id}}" name="id[]" class="checkitem"></td>
-                        <td width="50%"><a href="{{asset(route('edit_post', ['id' => $item->id]))}}">{{$item['title']}}</a></td>
-                        <td >{{$item->category->cate_name}}</td>
+                        <td align="center" width="35px"><input type="checkbox" value="{{$item->id}}" name="id[]"
+                                                               class="checkitem"></td>
+                        <td width="50%"><a
+                                    href="{{asset(route('edit_post', ['id' => $item->id]))}}">{{$item['title']}}</a>
+                        </td>
+                        <td>{{$item->category->cate_name}}</td>
                         <td>{{$item->user->name}}</td>
                         <td><i class="glyphicon glyphicon-comment">10</i></td>
                         <td>{{$item['updated_at']}}</td>
@@ -89,12 +97,12 @@
         /*#datatable_filter{*/
         /*position: relative;*/
         /*}*/
-        #datatable_filter label{
+        #datatable_filter label {
             position: absolute;
             right: 0px;
         }
 
-        #table_data tbody tr:hover{
+        #table_data tbody tr:hover {
             background: #F5F5F5;
         }
 
@@ -133,30 +141,29 @@
             var count = 0;
 
             $('.checkitem').each(function () {
-                if ($(this).is(':checked')){
+                if ($(this).is(':checked')) {
                     count++;
                 }
             });
 
-            if (count>0)
-            {
+            if (count > 0) {
                 $('#btn_destroy').html('<button type="submit" onclick="destroy_post()" id="destroy" class="btn btn-danger waves-effect w-md waves-light m-b-5"><i class="glyphicon glyphicon-trash"></i> Destroy</button>\n' +
                     '<button type="submit" onclick="status_posted()" id="posted" class="btn btn-info waves-effect w-md waves-light m-b-5"><i class="glyphicon glyphicon-send"></i> Post</button>');
-            }else{
+            } else {
                 $('#destroy').hide();
                 $('#posted').hide();
             }
         });
 
-        $('#check_all').change(function(){
+        $('#check_all').change(function () {
             $('.checkitem').prop('checked', this.checked).trigger('change');
         });
 
-        function destroy_post(){
+        function destroy_post() {
             $('#form_show').attr('action', '{{asset(route('destroy_post'))}}');
         }
 
-        function status_posted(){
+        function status_posted() {
             $('#form_show').attr('action', '{{asset(route('stranfer_status_posted'))}}');
         }
 
