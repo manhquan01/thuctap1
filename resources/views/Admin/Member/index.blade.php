@@ -2,7 +2,7 @@
 @section('title', 'Membership')
 @section('content')
     <div class="row table-responsive">
-        <table class="table m-0" id="table_data">
+        <table class="table table table-hover m-0" id="table_data">
             <thead>
             <tr>
                 <th>Name</th>

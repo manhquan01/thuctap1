@@ -32,7 +32,14 @@
     <![endif]-->
 
     {{--<script src="frontend/assets/js/modernizr.min.js"></script>--}}
-
+    <style>
+        #btn-login{
+            line-height: 50px;
+        }
+         #btn-login a{
+             color: white;
+         }
+    </style>
 </head>
 
 <body>
@@ -52,8 +59,15 @@
                     <img src="frontend/assets/images/logo.png" alt="" height="30">
                 </a>
             </div>
-            <div>
-                <a href="{{asset(route('logout'))}}"><i class="ti-power-off m-r-5"></i> Logout</a>
+            <div class="nav navbar-nav navbar-right" id="btn-login">
+                @if(\Illuminate\Support\Facades\Auth::guest())
+                    <a href="{{asset(route('login'))}}">Sign in</a> |
+                    <a href="{{asset(route('register'))}}">Sign up</a>
+                @else
+                    <a href="{{asset(route('logout'))}}"><i class="ti-power-off m-r-5"></i> Logout</a>
+                @endif
+
+
             </div>
             <!-- End Logo container-->
 
