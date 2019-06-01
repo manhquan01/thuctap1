@@ -19,7 +19,7 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         $roles = $this->getRole();
-        $members = DB::table('users')->select('id', 'name', 'email', 'phone_number', 'role', 'activated')->paginate(5);
+        $members = DB::table('users')->select('id', 'name', 'email', 'phone_number', 'role', 'activated')->paginate(20);
         return view('Admin.Member.index', ['members' => $members, 'roles' => $roles]);
     }
 

@@ -169,9 +169,16 @@ class PostController extends Controller
     {
         $keyword = $request->key_word;
         $all_post = PostModel::where('title', 'LIKE', '%' . $keyword . '%')->get();
-        return view('Admin.Post.search_result',
-            ['all_post' => $all_post,
-                'status_post' => $this->status_post]);
+        return view('Admin.Post.search_result', [
+            'all_post' => $all_post,
+            'status_post' => $this->status_post]);
+    }
+
+    public function searchAjax(Request $request)
+    {
+        $keyword = $request->key_word;
+        $all_post = PostModel::where('title', 'LIKE', '%' . $keyword . '%')->get();
+        return response()->json($all_post);
     }
 
     function vn_to_str($str)

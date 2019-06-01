@@ -90,16 +90,16 @@
 
         }
 
-        $.getJSON('http://laravel.local/api/v1/user/', function (data) {
-            console.log(data.data[0].name);
-            // data['data'].forEach(function (e) {
-            //     console.log(e);
-            // });
-            // $.each(data, function (index, value) {
-            //     console.log(value);
-            // });
-
-        })
+        // $.getJSON('http://laravel.local/api/v1/user/', function (data) {
+        //     console.log(data.data[0].name);
+        //     data['data'].forEach(function (e) {
+        //         console.log(e);
+        //     });
+        //     $.each(data, function (index, value) {
+        //         console.log(value);
+        //     });
+        //
+        // })
     </script>
 @endsection
 

@@ -67,7 +67,7 @@ class CategoryCrawler extends Command
             PostModel::create($post);
         }
 
-        for ($i = 2; $i <= 10; $i++)
+        for ($i = 2; $i <= 99; $i++)
         {
             $dom = file_get_html('su-kien/trang-'.$i.'.htm', 'https://dantri.com.vn/');
             $a = $dom->find('#listcheckepl div .mr1 h2 a');

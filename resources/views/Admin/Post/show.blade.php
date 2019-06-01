@@ -28,7 +28,7 @@
 
             <div class="col-md-2">
                 <div class="form-group search-box">
-                    <input type="text" name="key_word" id="search-input" class="form-control"
+                    <input type="search" name="key_word" id="search-input" class="form-control"
                            placeholder="Search here..." form="search_form">
                     <button type="submit" class="btn btn-search" form="search_form"><i class="fa fa-search"></i>
                     </button>
@@ -125,6 +125,7 @@
 
 @section('script')
     <!-- init -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
     <script src="assets/pages/jquery.datatables.init.js"></script>
 
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
@@ -134,6 +135,41 @@
     <script>
         $(document).ready(function () {
             $('#datatable').dataTable();
+
+            var engine1 = new Bloodhound({
+                remote: {
+                    url: '/admin/uae/post/search-ajax?key_word=%QUERY%',
+                    wildcard: '%QUERY%'
+                },
+                datumTokenizer: Bloodhound.tokenizers.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace
+            });
+
+            $("#search-input").typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, [
+                {
+                    source: engine1.ttAdapter(),
+                    name: 'students-name',
+                    display: function (data) {
+                        return data.title;
+                    },
+                    templates: {
+                        empty: [
+                            '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                        ],
+                        // header: [
+                        //     '<div class="list-group search-results-dropdown"></div>'
+                        // ],
+                        suggestion: function (data) {
+                            return '<a href="/admin/uae/post/edit/' + data.id + '" class="list-group-item">' + data.title + '</a>';
+                        }
+                    }
+                },
+            ]);
+
         });
         TableManageButtons.init();
 
