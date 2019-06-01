@@ -121,6 +121,12 @@ Route::group(['namespace' => 'Admin'], function () {
                 'as' => 'search_post',
                 'uses' => 'PostController@search'
             ]);
+
+            Route::get('search-ajax', [
+                'as' => 'search_ajax_post',
+                'uses' => 'PostController@searchAjax'
+            ]);
+
         });
 
         Route::group(['prefix' => 'member'], function () {
@@ -146,6 +152,31 @@ Route::group(['namespace' => 'Admin'], function () {
                'as' => 'role_index',
                'uses' => 'RoleController@index',
            ]);
+
+            Route::post('/store',[
+                'as' => 'role_store',
+                'uses' => 'RoleController@store',
+            ]);
+
+            Route::get('/edit',[
+                'as' => 'role_edit',
+                'uses' => 'RoleController@edit',
+            ]);
+
+            Route::post('/update/{id}',[
+                'as' => 'role_update',
+                'uses' => 'RoleController@update',
+            ]);
+
+            Route::post('/delete/{id}',[
+                'as' => 'role_delete',
+                'uses' => 'RoleController@delete',
+            ]);
+
+            Route::get('/search',[
+                'as' => 'role_search_ajax',
+                'uses' => 'RoleController@search',
+            ]);
         });
     });
 });

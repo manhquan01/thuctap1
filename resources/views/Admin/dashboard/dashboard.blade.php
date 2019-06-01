@@ -41,11 +41,11 @@
     <div class="col-lg-3 col-md-6">
         <div class="card-box widget-box-three">
             <div class="bg-icon pull-left">
-                <i class="ti-view-list-alt"></i>
+                <i class="ti-user"></i>
             </div>
             <div class="text-right">
-                <p class="text-muted m-t-5 text-uppercase font-600 font-secondary">Categories</p>
-                <h2 class="m-b-10"><span data-plugin="counterup">{{$total_category}}</span></h2>
+                <p class="text-muted m-t-5 text-uppercase font-600 font-secondary">Users</p>
+                <h2 class="m-b-10"><span data-plugin="counterup">{{$countUser}}</span></h2>
             </div>
         </div>
     </div>

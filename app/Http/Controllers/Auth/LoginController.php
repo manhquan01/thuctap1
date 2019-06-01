@@ -43,13 +43,15 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
-        $activated = DB::table('users')->select('activated')->where($this->username(), $request->only($this->username()))->get();
-        if ($activated[0]->activated == '1'){
+        $activated = DB::table('users')
+            ->select('activated')
+            ->where($this->username(), $request->only($this->username()))
+            ->get();
+        if ($activated[0]->activated == '1') {
             return $this->guard()->attempt(
                 $this->credentials($request), $request->filled('remember')
             );
-        }
-        else{
+        } else {
             throw ValidationException::withMessages([
                 $this->username() => 'Account has not been activated yet',
             ]);
