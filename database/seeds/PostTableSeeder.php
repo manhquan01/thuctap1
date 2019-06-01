@@ -31,6 +31,7 @@ class PostTableSeeder extends Seeder
                 'status' => $faker->randomElement($array = array ('0','2')),
                 'featured' => $faker->randomElement($array = array ('0','1')),
                 'category_id' => $faker->numberBetween($min = 1, $max = 5),
+                'author' => $faker->numberBetween($min = 1, $max = 20),
 //                'thumbnail' => $faker->imageUrl($width = 640, $height = 480),
 //                'descript' => $faker->realText($maxNbChars = 255, $indexSize = 5),
             ]);
