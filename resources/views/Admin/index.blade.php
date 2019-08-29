@@ -50,7 +50,7 @@
 
         <!-- LOGO -->
         <div class="topbar-left">
-            <a href="{{asset(route('index'))}}" class="logo"><span>Zir<span>cos</span></span><i
+            <a href="{{asset(route('admin.dashboard.index'))}}" class="logo"><span>Zir<span>cos</span></span><i
                         class="mdi mdi-layers"></i></a>
             <!-- Image logo -->
             <!--<a href="index.html" class="logo">-->
@@ -240,38 +240,51 @@
                     <li class="menu-title">Navigation</li>
 
                     <li class="has_sub">
-                        <a href="{{asset(route('index'))}}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i>
+                        <a href="{{asset(route('admin.dashboard.index'))}}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i>
                             <span> Dashboard </span></a>
                     </li>
-                    @if(Auth::user()->role !== 1)
-                        <li class="has_sub">
-                            <a href="{{asset(route('category_dashboard'))}}" class="waves-effect"><i
-                                        class="mdi mdi-format-list-bulleted"></i> <span> Category </span></a>
-                        </li>
-                    @endif
+                    @permission('read-category')
                     <li class="has_sub">
-                        <a href="{{asset(route('post_dashboard'))}}" class="waves-effect"><i
+                        <a href="{{asset(route('admin.category.index'))}}" class="waves-effect"><i
+                                    class="mdi mdi-format-list-bulleted"></i> <span> Category </span></a>
+                    </li>
+                    @endpermission
+                    @permission('read-post')
+                    <li class="has_sub">
+                        <a href="{{asset(route('admin.post.index'))}}" class="waves-effect"><i
                                     class="glyphicon glyphicon-file"></i><span> Blog </span></a>
                     </li>
+                    @endpermission
+                    @permission('trash-post')
                     <li class="has_sub">
-                        <a href="{{asset(route('trash_post'))}}" class="waves-effect"><i
+                        <a href="{{asset(route('admin.post.trash'))}}" class="waves-effect"><i
                                     class="glyphicon glyphicon-trash"></i><span> Rubbish bin </span></a>
                     </li>
-                    @if(Auth::user()->role === 0)
-                        <li class="has_sub">
-                            <a href="{{asset(route('member_dashboard'))}}" class="waves-effect"><i
-                                        class="glyphicon glyphicon-user"></i><span> Member </span></a>
-                        </li>
-                        <li class="has_sub">
-                            <a href="{{asset(route('role_index'))}}" class="waves-effect"><i
-                                        class="glyphicon glyphicon-user"></i><span> Role </span></a>
-                        </li>
-                    @endif
+                    @endpermission
+                    @permission('read-member')
                     <li class="has_sub">
-                        <a href="{{asset(route('discuss_index'))}}" class="waves-effect"><i
+                        <a href="{{asset(route('admin.member.index'))}}" class="waves-effect"><i
+                                    class="glyphicon glyphicon-user"></i><span> Member </span></a>
+                    </li>
+                    @endpermission
+                    @permission('read-role')
+                    <li class="has_sub">
+                        <a href="{{asset(route('admin.role.index'))}}" class="waves-effect"><i
+                                    class="glyphicon glyphicon-user"></i><span> Role </span></a>
+                    </li>
+                    @endpermission
+                    @permission('read-discuss')
+                    <li class="has_sub">
+                        <a href="{{asset(route('admin.discuss.index'))}}" class="waves-effect"><i
                                     class="mdi mdi-comment-text-outline"></i><span> Comment </span></a>
                     </li>
-
+                    @endpermission
+                    @permission('read-rolemanager')
+                    <li class="has_sub">
+                        <a href="{{asset(route('admin.rolemanager.index'))}}" class="waves-effect"><i
+                                    class="mdi mdi-comment-text-outline"></i><span> Role Manager </span></a>
+                    </li>
+                    @endpermission
                 </ul>
             </div>
             <!-- Sidebar -->

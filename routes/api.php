@@ -25,7 +25,7 @@ use App\CategoriesModel;
 //    $cate = CategoriesModel::all();
 //    return response()->json($cate);
 //});
-Route::group(['prefix' => 'v1'], function () {
+Route::group(['prefix' => 'v1', 'middleware' => ['cors']], function () {
     Route::resource('user', 'API\UserController');
 
 });

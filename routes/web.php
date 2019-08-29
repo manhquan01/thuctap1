@@ -49,81 +49,82 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::group(['namespace' => 'Admin'], function () {
 
-//    Route::get('login/admin', 'UserController@getLogin')->name('login')->middleware('logedin');
-//    Route::post('loged-in/admin', 'UserController@postLogin')->name('logged-in')->middleware('logedin');
-//    Route::get('logout/admin', 'UserController@logout')->name('logout');
+    Route::group([
+        'prefix' => 'admin/uae',
+        'middleware' => ['auth', 'CheckActivated', 'check.permission'],
+        'as' => 'admin.'
+    ], function () {
+        Route::get('/', 'HomeController@index')->name('dashboard.index');
 
-    Route::group(['prefix' => 'admin/uae', 'middleware' => ['auth', 'CheckActivated']], function () {
-        Route::get('/', 'HomeController@index')->name('index');
 
-
-        Route::group(['prefix' => 'multilevel-category'], function () {
-            Route::get('/', 'MultilevelCategoryController@index');
-            Route::post('store', 'MultilevelCategoryController@store')->name('store_category');
-            Route::get('/edit/{id}', 'MultilevelCategoryController@edit')->name('edit_category');
-            Route::post('/update', 'MultilevelCategoryController@update')->name('update_category');
-            Route::get('parent/{id}', 'MultilevelCategoryController@parent')->name('get_parent');
-        });
+//        Route::group(['prefix' => 'multilevel-category'], function () {
+//            Route::get('/', 'MultilevelCategoryController@index');
+//            Route::post('store', 'MultilevelCategoryController@store')->name('store_category');
+//            Route::get('/edit/{id}', 'MultilevelCategoryController@edit')->name('edit_category');
+//            Route::post('/update', 'MultilevelCategoryController@update')->name('update_category');
+//            Route::get('parent/{id}', 'MultilevelCategoryController@parent')->name('get_parent');
+//        });
 
         Route::group(['prefix' => 'category'], function () {
-            Route::get('/', 'CategoryController@index')->name('category_dashboard');
-            Route::post('store', 'CategoryController@store')->name('store_menu_item');
-            Route::post('update', 'CategoryController@update')->name('update_menu_item');
-            Route::get('destroy', 'CategoryController@delete')->name('destroy_menu_item');
+            Route::get('/', 'CategoryController@index')->name('category.index');
+            Route::post('store', 'CategoryController@store')->name('category.store');
+            Route::post('update', 'CategoryController@update')->name('category.update');
+            Route::get('destroy', 'CategoryController@delete')->name('category.destroy');
             Route::get('change_status', [
-                'as' => 'change_status_category',
+                'as' => 'category.status',
                 'uses' => 'CategoryController@change_status'
             ]);
         });
 
         Route::group(['prefix' => 'post'], function () {
-            Route::get('/', 'PostController@index')->name('post_dashboard');
+            Route::get('/', 'PostController@index')->name('post.index');
             Route::get('create-new-post', [
-                'as' => 'create_new_post',
+                'as' => 'post.create',
                 'uses' => 'PostController@create',
             ]);
             Route::post('store-new-post', [
-                'as' => 'store_new_post',
+                'as' => 'post.store',
                 'uses' => 'PostController@store'
             ]);
             Route::get('edit/{id}', [
-                'as' => 'edit_post',
+                'as' => 'post.edit',
                 'uses' => 'PostController@edit'
             ]);
             Route::post('update/{id}', [
-                'as' => 'update_post',
+                'as' => 'post.update',
                 'uses' => 'PostController@update'
-            ]);
-            Route::post('destroy', [
-                'as' => 'destroy_post',
-                'uses' => 'PostController@destroy'
-            ]);
-            Route::get('trash', [
-                'as' => 'trash_post',
-                'uses' => 'PostController@trash'
-            ]);
-            Route::post('restore', [
-                'as' => 'restore_post',
-                'uses' => 'PostController@restore'
             ]);
 
             Route::post('delete', [
-                'as' => 'delete_post',
+                'as' => 'post.delete',
                 'uses' => 'PostController@delete'
             ]);
 
+            Route::post('destroy', [
+                'as' => 'post.remove',
+                'uses' => 'PostController@destroy'
+            ]);
+            Route::get('trash', [
+                'as' => 'post.trash',
+                'uses' => 'PostController@trash'
+            ]);
+            Route::post('restore', [
+                'as' => 'post.restore',
+                'uses' => 'PostController@restore'
+            ]);
+
             Route::post('status_posted', [
-                'as' => 'stranfer_status_posted',
+                'as' => 'post.status',
                 'uses' => 'PostController@posted'
             ]);
 
             Route::get('search', [
-                'as' => 'search_post',
+                'as' => 'post.search',
                 'uses' => 'PostController@search'
             ]);
 
             Route::get('search-ajax', [
-                'as' => 'search_ajax_post',
+                'as' => 'post.search-ajax',
                 'uses' => 'PostController@searchAjax'
             ]);
 
@@ -131,53 +132,68 @@ Route::group(['namespace' => 'Admin'], function () {
 
         Route::group(['prefix' => 'member'], function () {
             Route::get('/', [
-                'as' => 'member_dashboard',
+                'as' => 'member.index',
                 'uses' => 'MemberController@index'
             ]);
             Route::get('change_activated', [
-                'as' => 'change_activated',
+                'as' => 'member.activated',
                 'uses' => 'MemberController@updateActivatedUser'
             ]);
         });
 
         Route::group(['prefix' => 'discuss'], function () {
             Route::get('/', [
-                'as' => 'discuss_index',
+                'as' => 'discuss.index',
                 'uses' => 'DiscussController@index'
             ]);
         });
 
-        Route::group(['prefix' => 'role'], function(){
-           Route::get('/',[
-               'as' => 'role_index',
-               'uses' => 'RoleController@index',
-           ]);
+        Route::group(['prefix' => 'role'], function () {
+            Route::get('/', [
+                'as' => 'role.index',
+                'uses' => 'RoleController@index',
+            ]);
 
-            Route::post('/store',[
-                'as' => 'role_store',
+            Route::post('/store', [
+                'as' => 'role.store',
                 'uses' => 'RoleController@store',
             ]);
 
-            Route::get('/edit',[
-                'as' => 'role_edit',
+            Route::get('/edit', [
+                'as' => 'role.edit',
                 'uses' => 'RoleController@edit',
             ]);
 
-            Route::post('/update/{id}',[
-                'as' => 'role_update',
+            Route::post('/update/{id}', [
+                'as' => 'role.update',
                 'uses' => 'RoleController@update',
             ]);
 
-            Route::post('/delete/{id}',[
-                'as' => 'role_delete',
+            Route::post('/delete/{id}', [
+                'as' => 'role.delete',
                 'uses' => 'RoleController@delete',
             ]);
 
-            Route::get('/search',[
-                'as' => 'role_search_ajax',
+            Route::get('/search', [
+                'as' => 'role.search-ajax',
                 'uses' => 'RoleController@search',
             ]);
         });
+
+        Route::get('/role-manager',[
+            'as' => 'rolemanager.index',
+            'uses' => 'RoleManagerController@index',
+        ]);
+
+        Route::get('/role-manager/edit/{id}',[
+            'as' =>'rolemanager.edit',
+            'uses' => 'RoleManagerController@edit',
+        ]);
+
+        Route::post('/role-manager/update/{id}',[
+            'as'  => 'rolemanager.update',
+            'uses' => 'RoleManagerController@update'
+        ]);
     });
 });
 

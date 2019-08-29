@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('CheckRoleUser');
+//        $this->middleware('CheckRoleUser');
     }
 
     public function index(Request $request)

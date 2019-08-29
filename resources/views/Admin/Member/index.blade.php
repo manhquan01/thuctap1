@@ -8,7 +8,6 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone munber</th>
-                <th>Role</th>
                 <th>Activated</th>
                 <th>Action</th>
             </tr>
@@ -19,26 +18,6 @@
                     <td>{{$member->name}}</td>
                     <td>{{$member->email}}</td>
                     <td>{{$member->phone_number}}</td>
-                    <td>
-                        @foreach($roles as $key => $role)
-                            @if($key === $member->role)
-                                @switch($member->role)
-                                    @case(0)
-                                    <span class="label label-success">{{$role}}</span>
-                                    @break
-                                    @case(1)
-                                    <span class="label label-danger">{{$role}}</span>
-                                    @break
-                                    @case(2)
-                                    <span class="label label-warning">{{$role}}</span>
-                                    @break
-                                    @case(3)
-                                    <span class="label label-info">{{$role}}</span>
-                                    @break
-                                @endswitch
-                            @endif
-                        @endforeach
-                    </td>
                     <td>
                         <input type="checkbox" id="switch{{$member->id}}" data-switch="none"
                                @if($member->activated == 1) checked @endif value="{{$member->activated}}">
@@ -73,7 +52,7 @@
             if (confirm('Are you sure continue change?')) {
                 return $.ajax({
                     type: "GET",
-                    url: "{{asset(route('change_activated'))}}",
+                    url: "{{asset(route('admin.member.activated'))}}",
                     data: {id: id},
                     success: function (data) {
                         $("#switch" + id).val(data);

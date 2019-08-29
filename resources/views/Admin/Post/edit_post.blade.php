@@ -4,7 +4,7 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="p-20">
             <div class="">
-                <form method="post" action="{{asset(route('update_post', ['id' => $post->id]))}}">
+                <form method="post" action="{{asset(route('admin.post.update', ['id' => $post->id]))}}">
                     <div class="row">
                         <div class="form-group m-b-20 col-md-10 col-sm-12 col-xs-12">
                             <label for="exampleInputEmail1">Post Title</label>
@@ -58,11 +58,11 @@
                         <img src="{{$post->thumbnail}}" id="ckfinder-input-1" width="300px">
                     </div>
                     <input name="status" type="text" hidden value="" id="input_status">
-                    @if(Auth::user()->role !== 1)
+                    @role('superadministrator','administrator', 'moderator')
                         <button type="submit" id="save_post" class="btn btn-info waves-effect waves-light">Update and
                             Post
                         </button>
-                    @endif
+                    @endrole
                     <button type="submit" id="save_draft" class="btn btn-danger waves-effect waves-light">
                         @if(Auth::user()->role !== 1)
                             Update as draft

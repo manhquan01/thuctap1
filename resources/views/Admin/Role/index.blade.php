@@ -18,7 +18,7 @@
     @endif
     <div class="col-md-4">
         <h4>Specify a new role on the Page</h4>
-        <form method="post" id="add_category" class="form-horizontal" action="{{asset(route('role_store'))}}">
+        <form method="post" id="add_category" class="form-horizontal" action="{{asset(route('admin.role.store'))}}">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -38,9 +38,9 @@
                         <div class="col-md-10">
                             <select name="role" class="form-control" id="select-box-role" required>
                                 <option value="">Select role</option>
-                                <option value="0">Aministrator</option>
-                                <option value="1">Editor</option>
-                                <option value="2">Censor</option>
+                                @foreach($role as $item)
+                                <option value="{{$item['id']}}">{{$item['display_name']}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -55,6 +55,36 @@
     <div class="col-md-1"></div>
     <div class="col-md-5">
         <h4>Current role on the Page</h4>
+
+        <div class="accordion">
+            <h5>Super Administrator</h5>
+            <div class="inbox-widget panel panel-default">
+                @foreach($superadministrator as $sadmin)
+                    <div id="user-{{$sadmin['id']}}">
+                        <div class="inbox-item">
+                            <div class="inbox-item-img"><img src="assets/images/users/avatar-2.jpg" class="img-circle"
+                                                             alt=""></div>
+                            <p class="inbox-item-author">{{$sadmin['name']}}</p>
+                            <p class="inbox-item-text">{{$sadmin['email']}}</p>
+                            @if($countAdmin == 1)
+                                <p class="alert-danger">There must be at least one administrator on this Page. You can
+                                    continue editing after adding an administrator.</p>
+                            @else
+                                <p class="inbox-item-date">
+                                    <button data-parent=".accordion" data-toggle="collapse"
+                                            href="#edit-user-{{$sadmin['id']}}" onclick="editRole({{$sadmin['id']}})"
+                                            type="button" class="btn btn-xs btn-success btn-{{$sadmin['id']}}"><span
+                                                class="glyphicon glyphicon-collapse-down"></span> Edit
+                                    </button>
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                    <div id="edit-user-{{$sadmin['id']}}"></div>
+                @endforeach
+            </div>
+
+        </div>
         <div class="accordion">
             <h5>Administrator</h5>
             <div class="inbox-widget panel panel-default">
@@ -64,19 +94,14 @@
                             <div class="inbox-item-img"><img src="assets/images/users/avatar-2.jpg" class="img-circle"
                                                              alt=""></div>
                             <p class="inbox-item-author">{{$admin['name']}}</p>
-                                <p class="inbox-item-text">{{$admin['email']}}</p>
-                            @if($countAdmin == 1)
-                                <p class="alert-danger">There must be at least one administrator on this Page. You can
-                                    continue editing after adding an administrator.</p>
-                            @else
-                                <p class="inbox-item-date">
-                                    <button data-parent=".accordion" data-toggle="collapse"
-                                            href="#edit-user-{{$admin['id']}}" onclick="editRole({{$admin['id']}})"
-                                            type="button" class="btn btn-xs btn-success btn-{{$admin['id']}}"><span
-                                                class="glyphicon glyphicon-collapse-down"></span> Edit
-                                    </button>
-                                </p>
-                            @endif
+                            <p class="inbox-item-text">{{$admin['email']}}</p>
+                            <p class="inbox-item-date">
+                                <button data-parent=".accordion" data-toggle="collapse"
+                                        href="#edit-user-{{$admin['id']}}" onclick="editRole({{$admin['id']}})"
+                                        type="button" class="btn btn-xs btn-success btn-{{$admin['id']}}"><span
+                                            class="glyphicon glyphicon-collapse-down"></span> Edit
+                                </button>
+                            </p>
                         </div>
                     </div>
                     <div id="edit-user-{{$admin['id']}}"></div>
@@ -85,7 +110,7 @@
 
         </div>
         <div class="accordion">
-            <h5>Censor</h5>
+            <h5>Moderator</h5>
             <div class="inbox-widget panel panel-default">
                 @foreach($censors as $censor)
                     <div id="user-{{$censor['id']}}">
@@ -163,7 +188,7 @@
             // $('.btn-'+id+' span').html('123');
             return $.ajax({
                 type: "GET",
-                url: "{{asset(route('role_edit'))}}",
+                url: "{{asset(route('admin.role.edit'))}}",
                 data: {id: id},
                 async: false,
                 success: function (data) {

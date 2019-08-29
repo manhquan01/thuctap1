@@ -97,7 +97,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::with('post')->find($id);
+        // $user = User::with('post')->find($id);
+        $user = User::find($id);
 
         $user->edit = [
             'href' => 'api/v1/user/' . $id,
@@ -132,11 +133,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        // $this->validate($request, [
+        //     'name' => 'required',
+        //     'email' => 'required|email',
+        //     // 'password' => 'required'
+        // ]);
 
         $name = $request->input('name');
         $email = $request->input('email');

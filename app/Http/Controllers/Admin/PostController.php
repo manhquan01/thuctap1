@@ -18,14 +18,14 @@ class PostController extends Controller
 
     public function __construct(StatusTicket $statusTicket)
     {
-        $this->middleware('CheckRoleUser');
-        $this->middleware('CheckRoleEditor')->only('posted');
+//        $this->middleware('CheckRoleUser');
+//        $this->middleware('CheckRoleEditor')->only('posted');
         $this->status_post = $statusTicket->status_post();
     }
 
     public function index()
     {
-        if ($this->role() == 'Editor') {
+        if (Auth::user()->hasRole('editor')) {
             $all_post = PostModel::where('author', Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
         } else {
             $all_post = PostModel::orderBy('id', 'DESC')->paginate(10);
@@ -65,7 +65,7 @@ class PostController extends Controller
         $post_model->author = Auth::user()->id;
         $post_model->status = $request->status;
         $post_model->save();
-        return redirect()->route('post_dashboard');
+        return redirect()->route('admin.post.index');
     }
 
     public function edit($id)
@@ -101,11 +101,11 @@ class PostController extends Controller
         $post_model->content = $request->descript;
         $post_model->thumbnail = $request->thumbnail;
 
-        if ($this->role() != 'Editor' || ($this->role() == 'Editor' && $post_model->status == '1')) {
+        if (!Auth::user()->hasRole('editor') || (Auth::user()->hasRole('editor') && $post_model->status == '1')) {
             $post_model->status = $request->status;
         }
         $post_model->save();
-        return redirect()->route('post_dashboard');
+        return redirect()->route('admin.post.index');
     }
 
     public function destroy(Request $request)
@@ -131,7 +131,7 @@ class PostController extends Controller
 
     public function trash()
     {
-        if ($this->role() == 'Editor') {
+        if (Auth::user()->hasRole('editor')) {
             $all_post = PostModel::onlyTrashed()->where('author', Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
         } else {
             $all_post = PostModel::onlyTrashed()->paginate(10);

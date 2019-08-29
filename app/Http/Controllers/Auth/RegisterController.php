@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
+use Laratrust\Traits\LaratrustUserTrait;
 
 class RegisterController extends Controller
 {
@@ -23,6 +24,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    use LaratrustUserTrait;
 
     /**
      * Where to redirect users after registration.
@@ -64,13 +66,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'activated' => '1',
-            'role' => '3',
             'password' => bcrypt($data['password']),
         ]);
+        $user->attachRole('user');
+        return $user;
     }
 
     public function register(Request $request)
