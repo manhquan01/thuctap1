@@ -86,8 +86,9 @@
     <script>
 
         CKEDITOR.replace('descript', {
-            filebrowserImageBrowseUrl: '/plugins/ckfinder/ckfinder.html',
-            filebrowserImageUploadUrl: '/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'
+            filebrowserImageBrowseUrl: '/file-manager/ckeditor',
+            // filebrowserImageBrowseUrl: '/plugins/ckfinder/ckfinder.html',
+            // filebrowserImageUploadUrl: '/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'
         });
 
         var button1 = document.getElementById('ckfinder-modal-1');

@@ -23,25 +23,24 @@ class UserSeeder extends Seeder
            'phone_number' => '0339080976',
         ]);
 
-       for ($i = 0; $i < 20; $i++){
-           DB::table('users')->insert([
-               'name' => $faker->name,
-               'email' => $faker->unique()->email,
-               'password' => bcrypt('123123'),
-               'activated' => '1',
-               'phone_number' => $faker->phoneNumber,
-           ]);
-       }
-
-        for ($j = 0; $j < 20; $j++){
-            DB::table('users')->insert(
-                $data = [
+//       for ($i = 0; $i < 20; $i++){
+//           DB::table('users')->insert([
+//               'name' => $faker->name,
+//               'email' => $faker->unique()->email,
+//               'password' => bcrypt('123123'),
+//               'activated' => '1',
+//               'phone_number' => $faker->phoneNumber,
+//           ]);
+//       }
+        for ($j = 0; $j < 3246; $j++){
+            $data = [
                 'name' => $faker->name,
                 'email' => $faker->unique()->email,
                 'password' => bcrypt('123123'),
                 'activated' => '1',
                 'phone_number' => $faker->phoneNumber,
-            ]);
+            ];
+            DB::table('users')->insert($data);
         }
 
 

@@ -41,5 +41,6 @@ class RoleSeeder extends Seeder
         ];
 
         \Illuminate\Support\Facades\DB::table('roles')->insert($data);
+        \Illuminate\Support\Facades\DB::table('role_user')->insert(['role_id' => 1, 'user_id' => 1, 'user_type' => 'App\User']);
     }
 }

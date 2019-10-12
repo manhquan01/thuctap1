@@ -194,6 +194,11 @@ Route::group(['namespace' => 'Admin'], function () {
             'as'  => 'rolemanager.update',
             'uses' => 'RoleManagerController@update'
         ]);
+
+        Route::get('/file', [
+            'as' => 'file.fm',
+            'uses' => 'FileManagerController@index',
+        ]);
     });
 });
 

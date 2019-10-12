@@ -285,6 +285,13 @@
                                     class="mdi mdi-comment-text-outline"></i><span> Role Manager </span></a>
                     </li>
                     @endpermission
+
+                    @permission('fm-file')
+                    <li class="has_sub">
+                        <a href="{{asset(route('admin.file.fm'))}}" class="waves-effect"><i
+                                    class="mdi mdi-comment-text-outline"></i><span> File Manager </span></a>
+                    </li>
+                    @endpermission
                 </ul>
             </div>
             <!-- Sidebar -->
