@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['CheckRoleEditor', 'CheckRoleUser']);
+//        $this->middleware(['CheckRoleEditor', 'CheckRoleUser']);
     }
 
     private $status = array('hidden', 'show');
@@ -33,7 +33,7 @@ class CategoryController extends Controller
         }
         $categories_model->status = '0';
         $categories_model->save();
-        return $categories_model;
+        return redirect()->back();
     }
 
     public function update(Request $request)

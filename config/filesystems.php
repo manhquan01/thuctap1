@@ -55,6 +55,22 @@ return [
             'visibility' => 'public',
         ],
 
+        // images folder in public path
+        'media' => [
+            'driver' => 'local',
+            'root' => public_path('media'),
+            'url' => env('APP_URL').'/media',
+        ],
+
+        // ftp
+        'dd-wrt' => [
+            'driver'   => 'ftp',
+            'host'     => 'ftp.dd-wrt.com',
+            'username' => 'anonymous',
+            'passive'  => true,
+            'timeout'  => 30,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -62,6 +78,7 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
         ],
+
 
     ],
 

@@ -1,7 +1,7 @@
 @extends('Admin.index')
 @section('title', 'Post')
 @section('content')
-    <form method="get" id="search_form" action="{{asset(route('search_post'))}}">
+    <form method="get" id="search_form" action="{{asset(route('admin.post.search'))}}">
 
     </form>
     <form id="form_show" method="post" action="">
@@ -10,7 +10,7 @@
             </div>
 
             <div class="col-md-2 col-sm-6 col-xs-6 text-right">
-                <a href="{{asset(route('create_new_post'))}}">
+                <a href="{{asset(route('admin.post.create'))}}">
                     <button type="button" class="btn btn-primary waves-effect w-md waves-light m-b-5"><i
                                 class="mdi mdi-plus"></i> Write new post
                     </button>
@@ -50,7 +50,7 @@
                         <td align="center" width="35px"><input type="checkbox" value="{{$item->id}}" name="id[]"
                                                                class="checkitem"></td>
                         <td width="50%"><a
-                                    href="{{asset(route('edit_post', ['id' => $item->id]))}}">{{$item['title']}}</a>
+                                    href="{{asset(route('admin.post.edit', ['id' => $item->id]))}}">{{$item['title']}}</a>
                         </td>
                         <td>{{$item->category->cate_name}}</td>
                         <td>{{$item->user->name}}</td>
@@ -160,11 +160,11 @@
         });
 
         function destroy_post() {
-            $('#form_show').attr('action', '{{asset(route('destroy_post'))}}');
+            $('#form_show').attr('action', '{{asset(route('admin.post.remove'))}}');
         }
 
         function status_posted() {
-            $('#form_show').attr('action', '{{asset(route('stranfer_status_posted'))}}');
+            $('#form_show').attr('action', '{{asset(route('admin.post.status'))}}');
         }
 
     </script>

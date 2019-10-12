@@ -1,8 +1,9 @@
 @extends('Admin.index')
 @section('title', 'Category')
 @section('content')
+@permission('create-category')
 <div class="col-md-4">
-    <form method="post" id="add_category" action="{{asset(route('store_menu_item'))}}">
+    <form method="post" id="add_category" action="{{asset(route('admin.category.store'))}}">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -20,9 +21,12 @@
             </div>
         </div>
         {{csrf_field()}}
-        <button type="button" onclick="add_item_menu()" form="add_category" class="btn btn-primary waves-effect w-md waves-light m-b-5"><i class="mdi mdi-plus"></i> Add category</button>
+        <button type="submit"
+                {{--onclick="add_item_menu()" --}}
+                form="add_category" class="btn btn-primary waves-effect w-md waves-light m-b-5"><i class="mdi mdi-plus"></i> Add category</button>
     </form>
 </div>
+@endpermission
 <div class="col-md-8">
     <table class="table table table-hover m-0">
         <thead>
@@ -30,8 +34,12 @@
             <th>#</th>
             <th>Category Name</th>
             <th>Static Link</th>
+            @permission('status-category')
             <th>Status</th>
+            @endpermission
+            @permission(['update-category','delete-category'])
             <th>Action</th>
+            @endpermission
         </tr>
         </thead>
         <tbody id="tbody">
@@ -40,17 +48,23 @@
             <th>{{$stt--}}</th>
             <td headers="cate_name">{{$item->cate_name}}</td>
             <td headers="cate_slug">{{$item->cate_slug}}</td>
+            @permission('status-category')
             <td>
                 <input type="checkbox" id="switch{{$item->id}}" data-switch="none" @if($item->status == 1) checked @endif value="{{$item->status}}">
                 <label for="switch{{$item->id}}" data-on-label="On" data-off-label="Off" onclick="change_status({{$item->id}})"></label>
             </td>
+            @endpermission
             <td>
+            @permission('update-category')
                 <button onclick="click_edit_btn(this)" data-toggle="modal" data-target="#con-close-modal" class="btn_edit">
                     <i class="ion-edit"></i>
                 </button>
+            @endpermission
+            @permission('delete-category')
                 <button onclick="destroy({{$item->id}})" class="btn_del">
                     <i class="ion-trash-a"></i>
                 </button>
+            @endpermission
             </td>
         </tr>
         @endforeach
@@ -67,15 +81,16 @@
         // them moi mot item menu
         function add_item_menu()
         {
-
+            location.reload();
             return $.ajax({
                 type:"POST",
-                url:"{{asset(route('store_menu_item'))}}",
+                url:"{{asset(route('admin.category.store'))}}",
                 data: new FormData($('#add_category')[0]),
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function (data) {
+
                     var count = $('.tr').length;
                     parseInt(count);
                     count++;
@@ -98,6 +113,7 @@
                     if (data['status'] == 1){
                         $("#switch"+data['id']).prop("checked", true);
                     }
+
                 }
             });
         }
@@ -116,7 +132,7 @@
         function update_cate() {
             return $.ajax({
                 type:"POST",
-                url:"{{asset(route('update_menu_item'))}}",
+                url:"{{asset(route('admin.category.update'))}}",
                 data: new FormData($('#edit_cate')[0]),
                 cache: false,
                 contentType: false,
@@ -133,7 +149,7 @@
             if (confirm('Are you sure delete this category?')){
                 return $.ajax({
                     type:"GET",
-                    url:"{{asset(route('destroy_menu_item'))}}",
+                    url:"{{asset(route('admin.category.destroy'))}}",
                     data: {id: cate_id},
                     async: false,
                     success: function (data) {
@@ -156,7 +172,7 @@
             var status = $("#switch"+id).val();
             return $.ajax({
                type:"GET",
-               url:"{{asset(route('change_status_category'))}}",
+               url:"{{asset(route('admin.category.status'))}}",
                data: {id: id, val: status},
                success: function (data) {
                    $("#switch"+id).val(data);

@@ -57,11 +57,13 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'logedin' => \App\Http\Middleware\CheckLogin::class,
-        'logedout' => \App\Http\Middleware\CheckLogout::class,
+        // 'loged   in' => \App\Http\Middleware\CheckLogin::class,
+        // 'logedout' => \App\Http\Middleware\CheckLogout::class,
         'CheckActivated' => \App\Http\Middleware\CheckActivated::class,
-        'CheckRoleEditor' => \App\Http\Middleware\CheckRoleEditor::class,
-        'CheckRoleCensor' => \App\Http\Middleware\CheckRoleCensor::class,
-        'CheckRoleUser' => \App\Http\Middleware\CheckRoleUser::class,
+        // 'CheckRoleEditor' => \App\Http\Middleware\CheckRoleEditor::class,
+        // 'CheckRoleCensor' => \App\Http\Middleware\CheckRoleCensor::class,
+        // 'CheckRoleUser' => \App\Http\Middleware\CheckRoleUser::class,
+        'cors' => \App\Http\Middleware\Cors::class,
+        'check.permission' => \App\Http\Middleware\CheckPermission::class,
     ];
 }

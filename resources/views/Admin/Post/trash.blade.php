@@ -8,11 +8,15 @@
     @endif
     <form id="form_trash" method="post" action="">
         <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-6" id="btn_destroy">
+            <div class="col-md-6 col-sm-6 col-xs-6" id="btn_destroy" >
+            @permission('delete-post')
+            <button onclick="delete_post()" type="button" style="display: none; id="destroy" class="btn btn-danger waves-effect w-md waves-light m-b-5 btn_action"><i class="glyphicon glyphicon-trash"></i> Delete</button>
+            @endpermission
+            <button type="submit" onclick="restore_post()" style="display: none; id="restore" class="btn btn-success waves-effect w-md waves-light m-b-5 btn_action"><i class="glyphicon glyphicon-retweet"></i> Restore</button>
             </div>
 
             <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                <a href="{{asset(route('create_new_post'))}}">
+                <a href="{{asset(route('admin.post.create'))}}">
                     <button type="button" class="btn btn-primary waves-effect w-md waves-light m-b-5"><i
                                 class="mdi mdi-plus"></i> Write new post
                     </button>
@@ -41,7 +45,7 @@
                         <td align="center" width="35px"><input type="checkbox" value="{{$item->id}}" name="id[]"
                                                                class="checkitem"></td>
                         <td width="50%"><a
-                                    href="{{asset(route('edit_post', ['id' => $item->id]))}}">{{$item['title']}}</a>
+                                    href="{{asset(route('admin.post.edit', ['id' => $item->id]))}}">{{$item['title']}}</a>
                         </td>
                         <td>{{$item->category->cate_name}}</td>
                         <td>{{$item->user->name}}</td>
@@ -128,10 +132,9 @@
                     count++;
                 }
             });
-
             if (count > 0) {
-                $('#btn_destroy').html('<button onclick="delete_post()" type="button" id="destroy" class="btn btn-danger waves-effect w-md waves-light m-b-5 btn_action"><i class="glyphicon glyphicon-trash"></i> Delete</button>\n' +
-                    '<button type="submit" onclick="restore_post()" id="restore" class="btn btn-success waves-effect w-md waves-light m-b-5 btn_action"><i class="glyphicon glyphicon-retweet"></i> Restore</button>');
+                $('#btn_destroy').show()
+                $('#btn_destroy button').removeAttr('style');
             } else {
                 $('.btn_action').hide();
             }
@@ -142,14 +145,14 @@
         });
 
         function restore_post() {
-            $('#form_trash').attr('action', '{{asset(route('restore_post'))}}');
+            $('#form_trash').attr('action', '{{asset(route('admin.post.restore'))}}');
         }
 
         function delete_post() {
             var r = confirm('Are you sure delete this article?');
             if (r == true) {
                 $('#destroy').attr('type', 'submit');
-                $('#form_trash').attr('action', '{{asset(route('delete_post'))}}');
+                $('#form_trash').attr('action', '{{asset(route('admin.post.delete'))}}');
             }
 
         }

@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title">Update category</h4>
             </div>
-            <form method="post" id="edit_cate" action="{{route('update_menu_item')}}">
+            <form method="post" id="edit_cate" action="{{route('admin.category.update')}}">
                 {{csrf_field()}}
                 <input name="cate_id" type="hidden" value="" id="id">
                 <div class="modal-body">
